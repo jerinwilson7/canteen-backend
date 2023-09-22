@@ -6,10 +6,10 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-
+const connectDatabase = require("./db/connection");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-
+var authRouter = require("./routes/auth");
 var app = express();
 
 // view engine setup
@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/auth", authRouter);
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
@@ -35,13 +36,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   });
 }
 
-mongoose
-  .connect(
-    "mongodb+srv://jerinwilson47:qNxmhLCzWKv7m2x@cannteen.6wgaesy.mongodb.net/canteen?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((err) => console.error(err));
+connectDatabase();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
