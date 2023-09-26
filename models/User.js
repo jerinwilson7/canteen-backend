@@ -46,10 +46,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
-  avatar: {
-    type: String,
-    required: true,
-  },
+  // avatar: {
+  //   type: String,
+  //   required: true,
+  // },
   orders: {
     type: mongoose.Schema.ObjectId,
     ref: "Order",
@@ -70,14 +70,14 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-userSchema.methods.getJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRES,
-  });
-};
+// userSchema.methods.getJwtToken = function () {
+//   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+//     expiresIn: process.env.JWT_EXPIRES,
+//   });
+// };
 
-userSchema.methods.comparePassword = async (enteredPassword, password) => {
-  console.log(password);
-  return await bcrypt.compare(enteredPassword, password);
-};
+// userSchema.methods.comparePassword = async (enteredPassword, password) => {
+//   console.log(password);
+//   return await bcrypt.compare(enteredPassword, password);
+// };
 module.exports = mongoose.model("User", userSchema);

@@ -1,22 +1,26 @@
 const User = require("../models/User");
 
 const userRegister = async (user) => {
-  console.log("userRef");
-  console.log(user.email);
+  const { name, email, password } = user;
   try {
-    let userObject = {
-      name: user.name,
-      email: user.email,
-      password: user.password,
-    };
-    console.log(userObject.email);
-    const userEmail = await User.findOne({ email: userObject.email });
+    // let userObject = {
+    //   name: user.name,
+    //   email: user.email,
+    //   password: user.password,
+    // };
+    console.log(name);
+
+    const userEmail = await User.findOne({ email });
     if (userEmail) {
       console.log("already exists");
-      console.log(userObject);
-    } else {
-      console.log("new email");
+      return "user already exists";
     }
+
+    user = await User.create({
+      name,
+      email,
+      password,
+    });
   } catch (error) {
     console.log(error);
   }
