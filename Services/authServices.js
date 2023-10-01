@@ -5,15 +5,15 @@ const ErrorHandler = require("../utils/ErrorHandler");
 
 const userRegister = async (user) => {
   const { name, email, password } = user;
-  const userEmail = await User.findOne({ email });
+  // const userEmail = await User.findOne({ email });
 
-  if (userEmail) {
-    console.log("User Already Exists");
-    return {
-      status: false,
-      message: "user already exists",
-    };
-  }
+  // if (userEmail) {
+  //   console.log("User Already Exists");
+  //   return {
+  //     status: false,
+  //     message: "user already exists",
+  //   };
+  // }
   let userObj = {
     name: name,
     email: email,
@@ -29,7 +29,7 @@ const userRegister = async (user) => {
   };
 
   const activationToken = createActivationToken(userObj);
-  const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+  const activationUrl = `http://localhost:3000/auth/activation/${activationToken}`;
 
   try {
     await sendMail({
@@ -45,17 +45,23 @@ const userRegister = async (user) => {
     console.log(error);
   }
 
-  user = await User.create({
-    name,
-    email,
-    password,
-  });
-  console.log("user created");
-  return {
-    status: true,
-    message: "account created",
-    data: activationToken,
-  };
+  // user = await User.create({
+  //   name,
+  //   email,
+  //   password,
+  // });
+  // console.log("user created");
+  // return {
+  //   status: true,
+  //   message: "account created",
+  //   data: activationToken,
+  // };
 };
 
-module.exports = { userRegister };
+//activation
+
+const userActivation = () => {
+  console.log("activation");
+};
+
+module.exports = { userRegister, userActivation };
