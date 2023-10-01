@@ -46,10 +46,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
-  // avatar: {
-  //   type: String,
-  //   required: true,
-  // },
+
   orders: {
     type: mongoose.Schema.ObjectId,
     ref: "Order",
