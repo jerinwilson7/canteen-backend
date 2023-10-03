@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const sendMail = require("../utils/SendMail");
 const ErrorHandler = require("../utils/ErrorHandler");
+const sendToken = require("../utils/jwtToken");
 
 const userRegister = async (user) => {
   const { name, email, password } = user;
@@ -88,7 +89,8 @@ const userActivation = async (token) => {
       password,
     });
 
-    // Optionally, you can redirect the user or show a success message
+    // sendToken(user, 201, res);
+    // // Optionally, you can redirect the user or show a success message
     // return res.status(200).json({ message: "Account successfully activated." });
     return {
       status: true,
@@ -105,4 +107,37 @@ const userActivation = async (token) => {
   }
 };
 
-module.exports = { userRegister, userActivation };
+const userLogin = async (userObj) => {
+  const { email, password } = userObj;
+  try {
+    const user = await User.findOne({ email }).select("+password");
+    console.log(user);
+
+    if (!user) {
+      console.log("No account");
+      return {
+        status: "false",
+        message: "No",
+      };
+    }
+
+    const isPasswordValid = await user.comparePassword(password, user.password);
+
+    if (!isPasswordValid) {
+      console.log("password error");
+      return {
+        status: "false",
+        message: "pas error",
+      };
+    }
+    console.log("password");
+    return {
+      status: "true",
+      message: "Account exists",
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { userRegister, userActivation, userLogin };
