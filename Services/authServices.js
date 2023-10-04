@@ -111,7 +111,6 @@ const userLogin = async (userObj) => {
   const { email, password } = userObj;
   try {
     const user = await User.findOne({ email }).select("+password");
-    console.log(user);
 
     if (!user) {
       console.log("No account");

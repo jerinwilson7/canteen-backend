@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const orderScheme = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
