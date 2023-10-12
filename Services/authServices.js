@@ -61,19 +61,17 @@ const userRegister = async (user) => {
 
 //activation
 
-const userActivation = async (token) => {
-  console.log("activation");
+const userActivation = async (token, res) => {
   // Verify the activation token
   try {
     const decoded = jwt.verify(token, process.env.ACTIVATION_SECRET);
-    console.log(decoded.user.email);
 
     // Find the user associated with the token
     const { name, email, password } = decoded.user;
-    const user = await User.findOne({ email: decoded.user.email });
+    const userExist = await User.findOne({ email: decoded.user.email });
 
     // Check if the user is already activated
-    if (user) {
+    if (userExist) {
       // return res.status(200).json({ message: "Account is already activated." });
       return {
         status: true,
@@ -83,7 +81,7 @@ const userActivation = async (token) => {
 
     // Activate the user account (update the database)
     // user = true;
-    await User.create({
+    const user = await User.create({
       name,
       email,
       password,
@@ -129,10 +127,13 @@ const userLogin = async (userObj) => {
         message: "pas error",
       };
     }
-    console.log("password");
+    let token = jwt.sign({ email: email }, process.env.ACTIVATION_SECRET, {
+      expiresIn: "24h",
+    });
     return {
       status: "true",
       message: "Account exists",
+      data: token,
     };
   } catch (error) {
     console.log(error);
