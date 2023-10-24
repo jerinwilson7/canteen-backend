@@ -140,4 +140,45 @@ const userLogin = async (userObj) => {
   }
 };
 
-module.exports = { userRegister, userActivation, userLogin };
+const tokenVerification = async (req, res, next) => {
+  console.log(`tokenVerification | ${req.originalUrl}`);
+  try {
+    if (
+      req.originalUrl.endsWith("/login") ||
+      req.originalUrl.endsWith("/create-user") ||
+      req?.originalUrl.includes("/refresh-token")
+    ) {
+      return next();
+    }
+    let token = req.headers["authorization"];
+    if (token && token.startsWith("Bearer")) {
+      token = token.slice(7, token.length);
+      jwt.verify(token, process.env.ACTIVATION_SECRET, (error, decoded) => {
+        if (error) {
+          res.status(401).json({
+            status: false,
+            message: error?.name ? error?.name : "Invalid Token",
+            error: `Invalid token | ${error?.message}`,
+          });
+        } else {
+          req["email"] = decoded.email;
+          next();
+        }
+      });
+    } else {
+      res.status(401).json({
+        status: false,
+        message: "Token is missing",
+        error: "Token is missing",
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      status: false,
+      message: error?.message ? error?.message : "Authentication failed",
+      error: `Authentication failed | ${error?.message}`,
+    });
+  }
+};
+
+module.exports = { userRegister, userActivation, userLogin, tokenVerification };
