@@ -26,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use("*", require("./Services/authServices").tokenVerification);
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
