@@ -113,8 +113,8 @@ const userLogin = async (userObj) => {
     if (!user) {
       console.log("No account");
       return {
-        status: "false",
-        message: "No",
+        status: 404,
+        message: "No Account",
       };
     }
 
@@ -131,9 +131,9 @@ const userLogin = async (userObj) => {
       expiresIn: "24h",
     });
     return {
-      status: "true",
+      status: 200,
       message: "Account exists",
-      data: token,
+      token: token,
     };
   } catch (error) {
     console.log(error);
