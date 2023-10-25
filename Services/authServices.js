@@ -80,16 +80,12 @@ const userActivation = async (token, res) => {
     }
 
     // Activate the user account (update the database)
-    // user = true;
     const user = await User.create({
       name,
       email,
       password,
     });
 
-    // sendToken(user, 201, res);
-    // // Optionally, you can redirect the user or show a success message
-    // return res.status(200).json({ message: "Account successfully activated." });
     return {
       status: true,
       message: "Account activated Successfully",
@@ -181,4 +177,18 @@ const tokenVerification = async (req, res, next) => {
   }
 };
 
-module.exports = { userRegister, userActivation, userLogin, tokenVerification };
+const tokenRefresh = async (req, res, next) => {
+  try {
+    console.log("token refresh");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  userRegister,
+  userActivation,
+  userLogin,
+  tokenVerification,
+  tokenRefresh,
+};
