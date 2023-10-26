@@ -183,37 +183,42 @@ const tokenRefresh = async (req, res, next) => {
     let token = req.headers["authorization"];
     if (token && token.startsWith("Bearer")) {
       token = token.slice(7, token.length);
-      jwt.verify(token, process.env.ACTIVATION_SECRET, (error, decoded) => {
-        if (error) {
-          res.status(401).json({
-            status: false,
-            message: error?.name ? error?.name : "Invalid Token",
-            error: `Invalid token | ${error?.message}`,
-          });
-        } else {
-          if (decoded.email) {
-            let newToken = jwt.sign(
-              {
-                email: decoded.email,
-              },
-              process.env.ACTIVATION_SECRET,
-              { expiresIn: "24h" }
-            );
-            res.json({
-              status: true,
-              message: "token refresh success",
-              data: newToken,
-            });
-          } else {
-            console.log(error);
+      jwt.verify(
+        token,
+        process.env.ACTIVATION_SECRET,
+        { ignoreExpiration: true },
+        (error, decoded) => {
+          if (error) {
             res.status(401).json({
               status: false,
-              message: "Invalid Token",
-              error: `Invalid token | `,
+              message: error?.name ? error?.name : "Invalid Token",
+              error: `Invalid token | ${error?.message}`,
             });
+          } else {
+            if (decoded.email) {
+              let newToken = jwt.sign(
+                {
+                  email: decoded.email,
+                },
+                process.env.ACTIVATION_SECRET,
+                { expiresIn: "24h" }
+              );
+              res.json({
+                status: true,
+                message: "token refresh success",
+                data: newToken,
+              });
+            } else {
+              console.log(error);
+              res.status(401).json({
+                status: false,
+                message: "Invalid Token",
+                error: `Invalid token | `,
+              });
+            }
           }
         }
-      });
+      );
     } else {
       res.status(401).json({
         status: false,
