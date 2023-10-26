@@ -217,15 +217,15 @@ const tokenRefresh = async (req, res, next) => {
     } else {
       res.status(401).json({
         status: false,
-        message: error?.name ? error?.name : "Invalid Token",
-        error: `Invalid token | ${error?.message}`,
+        message: error?.name ? error?.name : " Token missing",
+        error: ` token missing | ${error?.message}`,
       });
     }
   } catch (error) {
     res.status(401).json({
       status: false,
-      message: error?.name ? error?.name : "Invalid Token",
-      error: `Invalid token | ${error?.message}`,
+      message: error?.name ? error?.name : " Token refresh failed",
+      error: `token refresh failed | ${error?.message}`,
     });
   }
 };
