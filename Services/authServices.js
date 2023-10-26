@@ -179,9 +179,54 @@ const tokenVerification = async (req, res, next) => {
 
 const tokenRefresh = async (req, res, next) => {
   try {
-    console.log("token refresh");
+    console.log(`token refresh | ${req.originalUrl}`);
+    let token = req.headers["authorization"];
+    if (token && token.startsWith("Bearer")) {
+      token = token.slice(7, token.length);
+      jwt.verify(token, process.env.ACTIVATION_SECRET, (error, decoded) => {
+        if (error) {
+          res.status(401).json({
+            status: false,
+            message: error?.name ? error?.name : "Invalid Token",
+            error: `Invalid token | ${error?.message}`,
+          });
+        } else {
+          if (decoded.name && decoded.email) {
+            let newToken = jwt.sign(
+              {
+                name: decoded.name,
+                email: decoded.email,
+              },
+              process.env.ACTIVATION_SECRET,
+              { expiresIn: "24h" }
+            );
+            res.json({
+              status: true,
+              message: "token refresh success",
+              data: newToken,
+            });
+          } else {
+            res.status(401).json({
+              status: false,
+              message: error?.name ? error?.name : "Invalid Token",
+              error: `Invalid token | ${error?.message}`,
+            });
+          }
+        }
+      });
+    } else {
+      res.status(401).json({
+        status: false,
+        message: error?.name ? error?.name : "Invalid Token",
+        error: `Invalid token | ${error?.message}`,
+      });
+    }
   } catch (error) {
-    console.log(error);
+    res.status(401).json({
+      status: false,
+      message: error?.name ? error?.name : "Invalid Token",
+      error: `Invalid token | ${error?.message}`,
+    });
   }
 };
 
