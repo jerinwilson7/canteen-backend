@@ -191,10 +191,9 @@ const tokenRefresh = async (req, res, next) => {
             error: `Invalid token | ${error?.message}`,
           });
         } else {
-          if (decoded.name && decoded.email) {
+          if (decoded.email) {
             let newToken = jwt.sign(
               {
-                name: decoded.name,
                 email: decoded.email,
               },
               process.env.ACTIVATION_SECRET,
@@ -206,10 +205,11 @@ const tokenRefresh = async (req, res, next) => {
               data: newToken,
             });
           } else {
+            console.log(error);
             res.status(401).json({
               status: false,
-              message: error?.name ? error?.name : "Invalid Token",
-              error: `Invalid token | ${error?.message}`,
+              message: "Invalid Token",
+              error: `Invalid token | `,
             });
           }
         }
@@ -217,8 +217,8 @@ const tokenRefresh = async (req, res, next) => {
     } else {
       res.status(401).json({
         status: false,
-        message: error?.name ? error?.name : " Token missing",
-        error: ` token missing | ${error?.message}`,
+        message: " Token missing",
+        error: ` token missing |`,
       });
     }
   } catch (error) {
