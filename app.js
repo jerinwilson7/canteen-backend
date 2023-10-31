@@ -27,7 +27,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("*", require("./Services/authServices").tokenVerification);
-app.use("/refresh-token", require("./Services/authServices").tokenRefresh);
+// app.use("/refresh-token", require("./Services/authServices").tokenRefresh);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

@@ -5,6 +5,7 @@ const {
   userRegister,
   userActivation,
   userLogin,
+  tokenRefresh,
 } = require("../Services/authServices");
 const CatchAsyncErrors = require("../middleware/CatchAsyncErrors");
 const jwt = require("jsonwebtoken");
@@ -49,5 +50,7 @@ router.post("/login", async (req, res) => {
   const resp = await userLogin(req.body);
   return res.send(resp);
 });
+
+router.post("/refresh-token", tokenRefresh);
 
 module.exports = router;
