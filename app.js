@@ -10,6 +10,7 @@ const connectDatabase = require("./db/connection");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
+var adminRouter = require("./routes/admin");
 var app = express();
 
 // view engine setup
@@ -32,6 +33,7 @@ app.use("*", require("./Services/authServices").tokenVerification);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+app.use("/admin", adminRouter);
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
