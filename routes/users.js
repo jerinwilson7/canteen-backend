@@ -4,7 +4,9 @@ const User = require("../models/User");
 const { getUser } = require("../Services/userServices");
 
 router.get("/get-user", async (req, res) => {
-  let email = req.body.email;
+  console.log("getuser");
+  console.log(req.email);
+  let email = req.email;
   let response = await getUser(email);
 
   res.json(response);

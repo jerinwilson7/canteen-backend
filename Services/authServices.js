@@ -148,10 +148,13 @@ const tokenVerification = async (req, res, next) => {
     }
     let token = req.headers["authorization"];
     if (token && token.startsWith("Bearer")) {
+      console.log("bearer");
       token = token.slice(7, token.length);
       jwt.verify(token, process.env.ACTIVATION_SECRET, (error, decoded) => {
         if (error) {
-          res.status(401).json({
+          console.log("401");
+
+          res.status(200).json({
             status: false,
             message: error?.name ? error?.name : "Invalid Token",
             error: `Invalid token | ${error?.message}`,
@@ -179,6 +182,7 @@ const tokenVerification = async (req, res, next) => {
 
 const tokenRefresh = async (req, res, next) => {
   try {
+    console.log(req.body);
     console.log(`token refresh | ${req.originalUrl}`);
     let token = req.headers["authorization"];
     if (token && token.startsWith("Bearer")) {
@@ -189,7 +193,8 @@ const tokenRefresh = async (req, res, next) => {
         { ignoreExpiration: true },
         (error, decoded) => {
           if (error) {
-            res.status(401).json({
+            console.log("err");
+            res.status(200).json({
               status: false,
               message: error?.name ? error?.name : "Invalid Token",
               error: `Invalid token | ${error?.message}`,
