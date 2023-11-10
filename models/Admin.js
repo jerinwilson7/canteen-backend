@@ -7,10 +7,7 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: [true, "please enter your fullname!"],
   },
-  email: {
-    type: String,
-    required: [true, "please enter your email"],
-  },
+
   password: {
     type: String,
     required: [true, "please enter your password"],
@@ -43,11 +40,11 @@ adminSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-adminSchema.methods.getJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRES,
-  });
-};
+// adminSchema.methods.getJwtToken = function () {
+//   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+//     expiresIn: process.env.JWT_EXPIRES,
+//   });
+// };
 
 adminSchema.methods.comparePassword = async (enteredPassword, password) => {
   console.log(password);
