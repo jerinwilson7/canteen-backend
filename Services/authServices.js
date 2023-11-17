@@ -143,6 +143,7 @@ const tokenVerification = async (req, res, next) => {
       req.originalUrl.endsWith("/login") ||
       req.originalUrl.endsWith("/create-user") ||
       req.originalUrl.endsWith("/create-admin") ||
+      req.originalUrl.endsWith("/admin/login") ||
       req?.originalUrl.includes("/refresh-token")
     ) {
       return next();
