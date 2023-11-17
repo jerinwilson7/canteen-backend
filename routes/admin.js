@@ -13,7 +13,8 @@ router.post("/create-admin", async function (req, res, next) {
 });
 
 router.post("/login", async (req, res) => {
-  const response = await adminLogin(req.UserName);
+  console.log(req.body);
+  const response = await adminLogin(req.body);
   res.json(response);
 });
 

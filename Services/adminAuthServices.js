@@ -1,7 +1,19 @@
 const Admin = require("../models/Admin");
 
-const adminLogin = (userName) => {
-  console.log(userName);
+const adminLogin = async (admin) => {
+  //login initiated complete it later
+  const { name, password } = admin;
+  try {
+    console.log(name);
+    const adminExist = await Admin.findOne({ name }).select("+password");
+    if (adminExist) {
+      console.log("exist");
+    } else {
+      console.log("no admin");
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const adminRegister = async (user) => {
