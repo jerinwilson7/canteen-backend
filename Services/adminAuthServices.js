@@ -8,8 +8,18 @@ const adminLogin = async (admin) => {
     const adminExist = await Admin.findOne({ name }).select("+password");
     if (adminExist) {
       console.log("exist");
+      return {
+        status: 200,
+        stat: true,
+        message: "Account Exists",
+      };
     } else {
       console.log("no admin");
+      return {
+        status: 404,
+        stat: false,
+        message: "No Account",
+      };
     }
   } catch (error) {
     console.log(error);
