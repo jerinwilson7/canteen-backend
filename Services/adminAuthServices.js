@@ -1,42 +1,52 @@
 const Admin = require("../models/Admin");
 
-const adminLogin = async (admin) => {
+const adminLogin = async (adminObj) => {
   //login initiated complete it later
-  const { name, password } = admin;
+  const { email, password } = adminObj;
   try {
-    console.log(name);
-    const adminExist = await Admin.findOne({ name }).select("+password");
-    if (adminExist) {
-      console.log("exist");
-      return {
-        status: 200,
-        stat: true,
-        message: "Account Exists",
-      };
-    } else {
-      console.log("no admin");
+    console.log(email);
+    const admin = await Admin.findOne({ email }).select("+password");
+
+    if (!admin) {
+      console.log("!admin");
       return {
         status: 404,
         stat: false,
         message: "No Account",
       };
     }
+
+    console.log("email");
+    const isPasswordValid = await admin.comparePassword(
+      password,
+      admin.password
+    );
+
+    if (!isPasswordValid) {
+      console.log("!pass");
+      return {
+        status: 404,
+        stat: false,
+        message: "please provide correct information",
+      };
+    }
+    console.log("exists");
+    return {
+      status: 200,
+      stat: true,
+      message: "Account Exists",
+    };
   } catch (error) {
     console.log(error);
   }
 };
 
 const adminRegister = async (user) => {
-  const { name, password } = user;
+  const { email, password } = user;
 
   try {
-    let adminObj = {
-      name: name,
-      password: password,
-    };
-
     const admin = await Admin.create({
-      name,
+      email,
       password,
     });
 
