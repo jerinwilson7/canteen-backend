@@ -144,11 +144,13 @@ const tokenVerification = async (req, res, next) => {
       req.originalUrl.endsWith("/create-user") ||
       req.originalUrl.endsWith("/create-admin") ||
       req.originalUrl.endsWith("/admin/login") ||
+      req.originalUrl.endsWith("/admin/add-product") ||
       req?.originalUrl.includes("/refresh-token")
     ) {
       return next();
     }
     let token = req.headers["authorization"];
+    console.log("authorization")
     if (token && token.startsWith("Bearer")) {
       console.log("bearer");
       token = token.slice(7, token.length);
