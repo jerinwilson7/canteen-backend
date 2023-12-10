@@ -18,4 +18,9 @@ router.post("/login", async (req, res) => {
   res.json(response);
 });
 
+router.post('/add-product',async(req,res)=>{
+  console.log(req.body)
+})
+
 module.exports = router;
+   
