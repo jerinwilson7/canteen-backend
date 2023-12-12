@@ -45,7 +45,10 @@ router.get("/activation/:token", async function (req, res, next) {
     const response = await userActivation(token, res);
     console.log(response)
     return res.render('../views/mailValidation.hbs', {
+      title:response.title,
+      name:response.name,
       message: response.message,
+      action:response.action,
       // email: response.email  
     });
     

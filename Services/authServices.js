@@ -75,7 +75,10 @@ const userActivation = async (token, res) => {
       // return res.status(200).json({ message: "Account is already activated." });
       return {
         status: true,
+        title:"Email Validation Failed",
         message: "Account is already activated",
+        name:name,
+        action:"Please login to continue"
       };
     }
 
@@ -88,7 +91,11 @@ const userActivation = async (token, res) => {
 
     return {
       status: true,
+      title:"Email Validation Success",
       message: "Account activated Successfully",
+      name:name,
+      action:"Please login to continue"
+
        
     };
   } catch (error) {
@@ -97,7 +104,9 @@ const userActivation = async (token, res) => {
     // return res.status(400).json({ message: "Invalid activation token." });
     return {
       status: false,
+      title:"Email Validation Failed",
       message: "Invalid activation token",
+      action:"Please try again"
     };
   } 
 };
