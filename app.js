@@ -12,11 +12,22 @@ var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
 var adminRouter = require("./routes/admin");
 var app = express();
+const exphbs = require("express-handlebars");
 
 // view engine setup
+app.engine(
+  ".hbs",
+  exphbs.engine({
+    extname: ".hbs",
+    defaultLayout: "layout", // Set the default layout file name
+    layoutsDir: path.join(__dirname, "views", "layout"), // Specify the layouts directory
+  })
+);
+app.set("view engine", ".hbs"); // Set the view engine
+
+mongoose.set("strictQuery", false); // Your Mongoose configuration
+
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
-mongoose.set("strictQuery", false);
 
 app.use(logger("dev"));
 app.use(express.json());

@@ -1,0 +1,7 @@
+// Error handling middleware
+app.use(function(err, req, res, next) {
+  console.error(err.stack); // Log the error
+
+  // Render the 'error' view with the error message
+  res.status(500).render('error', { error: err.message }); // Replace 'error' with your actual error view name
+});

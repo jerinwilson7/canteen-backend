@@ -30,7 +30,7 @@ const userRegister = async (user) => {
   };
 
   const activationToken = createActivationToken(userObj);
-  const activationUrl = `http://localhost:3000/auth/activation/${activationToken}`;
+  const activationUrl = `http://localhost:8000/auth/activation/${activationToken}`;
 
   try {
     await sendMail({
@@ -75,7 +75,10 @@ const userActivation = async (token, res) => {
       // return res.status(200).json({ message: "Account is already activated." });
       return {
         status: true,
+        title:"Email Validation Failed",
         message: "Account is already activated",
+        name:name,
+        action:"Please login to continue"
       };
     }
 
@@ -88,7 +91,12 @@ const userActivation = async (token, res) => {
 
     return {
       status: true,
+      title:"Email Validation Success",
       message: "Account activated Successfully",
+      name:name,
+      action:"Please login to continue"
+
+       
     };
   } catch (error) {
     // Handle token verification errors or other exceptions
@@ -96,9 +104,11 @@ const userActivation = async (token, res) => {
     // return res.status(400).json({ message: "Invalid activation token." });
     return {
       status: false,
+      title:"Email Validation Failed",
       message: "Invalid activation token",
+      action:"Please try again"
     };
-  }
+  } 
 };
 
 const userLogin = async (userObj) => {
@@ -145,6 +155,7 @@ const tokenVerification = async (req, res, next) => {
       req.originalUrl.endsWith("/create-admin") ||
       req.originalUrl.endsWith("/admin/login") ||
       req.originalUrl.endsWith("/admin/add-product") ||
+      req.originalUrl.includes("/activation") ||
       req?.originalUrl.includes("/refresh-token")
     ) {
       return next();
