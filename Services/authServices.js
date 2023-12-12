@@ -30,7 +30,7 @@ const userRegister = async (user) => {
   };
 
   const activationToken = createActivationToken(userObj);
-  const activationUrl = `http://localhost:3000/auth/activation/${activationToken}`;
+  const activationUrl = `http://localhost:8000/auth/activation/${activationToken}`;
 
   try {
     await sendMail({
@@ -89,6 +89,7 @@ const userActivation = async (token, res) => {
     return {
       status: true,
       message: "Account activated Successfully",
+       
     };
   } catch (error) {
     // Handle token verification errors or other exceptions
@@ -98,7 +99,7 @@ const userActivation = async (token, res) => {
       status: false,
       message: "Invalid activation token",
     };
-  }
+  } 
 };
 
 const userLogin = async (userObj) => {
@@ -145,6 +146,7 @@ const tokenVerification = async (req, res, next) => {
       req.originalUrl.endsWith("/create-admin") ||
       req.originalUrl.endsWith("/admin/login") ||
       req.originalUrl.endsWith("/admin/add-product") ||
+      req.originalUrl.includes("/activation") ||
       req?.originalUrl.includes("/refresh-token")
     ) {
       return next();

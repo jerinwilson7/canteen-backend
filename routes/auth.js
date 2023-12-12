@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const path = require('path')
 const User = require("../models/User");
 const {
   userRegister,
@@ -14,6 +15,7 @@ const sendToken = require("../utils/jwtToken");
 /* GET home page. */
 router.post("/create-user", async function (req, res, next) {
   try {
+    console.log("object")
     const response = await userRegister(req.body);
     return res.send(response);
   } catch (error) {
@@ -36,11 +38,17 @@ router.post("/create-user", async function (req, res, next) {
 // );
 
 router.get("/activation/:token", async function (req, res, next) {
+  console.log("act")
   const { token } = req.params;
 
   try {
     const response = await userActivation(token, res);
-    return res.send(response);
+    console.log(response)
+    return res.render('../views/mailValidation.hbs', {
+      message: response.message,
+      // email: response.email  
+    });
+    
   } catch (error) {
     console.log(error);
   }

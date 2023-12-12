@@ -7,7 +7,8 @@ var router = express.Router();
 router.post("/create-admin", async function (req, res, next) {
   try {
     const response = await adminRegister(req.body);
-    return res.send(response);
+    
+    return res.render(response);
   } catch (error) {
     console.log(error);
   }
