@@ -24,6 +24,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  foodImage:{
+    type: mongoose.Schema.ObjectId,
+    ref:"Image"
+  }
 
 });
 
