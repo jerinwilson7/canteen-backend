@@ -43,7 +43,6 @@ router.get("/activation/:token", async function (req, res, next) {
 
   try {
     const response = await userActivation(token, res);
-    console.log(response)
     return res.render('../views/mailValidation.hbs', {
       title:response.title,
       name:response.name,
@@ -65,3 +64,4 @@ router.post("/login", async (req, res) => {
 router.post("/refresh-token", tokenRefresh);
 
 module.exports = router;
+ 
