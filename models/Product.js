@@ -21,16 +21,16 @@ const productSchema = new mongoose.Schema({
   },
 
   quantity: {
-    type: Number,
+    type: Number, 
     required: true,
   },
   price: {
     type: Number,
     required: true,
   },
-  foodImage:{
-     filename: String,
-    path: String
+  file:{
+     type:String,
+     required:true
   }
 
 });
