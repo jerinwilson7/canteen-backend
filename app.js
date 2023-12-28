@@ -11,6 +11,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
 var adminRouter = require("./routes/admin");
+var cartRouter = require("./routes/cart")
 var app = express();
 const exphbs = require("express-handlebars");
 
@@ -45,6 +46,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
+app.use("/cart",cartRouter)
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
