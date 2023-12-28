@@ -1,5 +1,4 @@
 const Product = require('../models/Product')
-const Products = require('../models/Product')
 
 
 const addFood=async(food,callback)=>{
@@ -15,7 +14,7 @@ const addFood=async(food,callback)=>{
 const getAllProducts=()=>{
     try {
         return new Promise (async(resolve,reject)=>{
-            let products = await Product.find()
+            let products = await Product.find()           
             resolve(products)
         })
         

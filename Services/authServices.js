@@ -164,13 +164,11 @@ const tokenVerification = async (req, res, next) => {
       return next();
     }
     let token = req.headers["authorization"];
-    console.log("authorization")
     if (token && token.startsWith("Bearer")) {
-      console.log("bearer");
       token = token.slice(7, token.length);
       jwt.verify(token, process.env.ACTIVATION_SECRET, (error, decoded) => {
         if (error) {
-          console.log("401");
+          console.log(error);
 
           res.status(200).json({
             status: false,
@@ -190,6 +188,7 @@ const tokenVerification = async (req, res, next) => {
       });
     }
   } catch (error) {
+
     res.status(401).json({
       status: false,
       message: error?.message ? error?.message : "Authentication failed",
