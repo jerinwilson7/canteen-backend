@@ -1,17 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-// const cartItemSchema = new mongoose.Schema({
-//     product:{
-//         type:mongoose.Schema.Types.ObjectId,
-//         ref:"Product",
-//         required:true
-//     },
-//     quantity:{
-//         type:Number,
-//         default: 1
-//     },
 
-// })
 
 const CartSchema = new mongoose.Schema({
   user: {
@@ -20,7 +9,6 @@ const CartSchema = new mongoose.Schema({
     required: true,
   },
 
-  // items:[cartItemSchema]
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
