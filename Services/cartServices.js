@@ -23,10 +23,12 @@ const addToCart = async ({ food_id, userEmail }) => {
       { $inc: { "quantity": 1 } },                     //operation
       { upsert: true , new:true}
     );
+    let cartResponse = await getCartItems({userEmail})
     if(updatedCart){
         return{
             status:true,
-            messaged: "food added to cart successfully"
+            messaged: "food added to cart successfully",
+            data: cartResponse
         }
     }
   } catch (error) {
@@ -47,18 +49,22 @@ const removeFromCart = async({food_id,userEmail})=>{
             {$inc:{quantity:-1}}, 
             {upsert:true,new:true}
         )
-        console.log(updatedCart)
         if(updatedCart.quantity<1){
             await Cart.deleteOne(updatedCart)
+            let cartResponse = await getCartItems({userEmail})
             return{
                 status:true,
-                message:"Food deleted from the cart"
+                message:"Food deleted from the cart",
+                data:cartResponse
             }
         }
+        
         else{
+          let cartResponse = await getCartItems({userEmail})
             return{
                 status:true,
-                message:"Food removed from the cart"
+                message:"Food removed from the cart",
+                data:cartResponse
             }
         }
     } catch (error) {
@@ -121,13 +127,7 @@ const getCartItems = async({userEmail})=>{
             };
           }
     
-        console.log(cartItems._id)
-
-        return{
-            status:true,
-            messages:"cart fetched successfully",
-            data:cartItems
-        }
+        
     } catch (error) {
         return{
             status:false,
