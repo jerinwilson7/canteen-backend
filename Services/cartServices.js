@@ -24,11 +24,13 @@ const addToCart = async ({ food_id, userEmail }) => {
       { upsert: true , new:true}
     );
     let cartResponse = await getCartItems({userEmail})
+    console.log("Cart Items:", JSON.stringify(cartResponse.data.cartItems, null, 2));
+
     if(updatedCart){
         return{
             status:true,
-            messaged: "food added to cart successfully",
-            data: cartResponse
+            messaged: "food added to cart successfully", 
+            data: cartResponse.data
         }
     }
   } catch (error) {
@@ -41,6 +43,7 @@ const addToCart = async ({ food_id, userEmail }) => {
 };
 
 const removeFromCart = async({food_id,userEmail})=>{
+  console.log("rem")
     try {
         let userObj =await User.findOne({email:userEmail})
 
@@ -52,10 +55,12 @@ const removeFromCart = async({food_id,userEmail})=>{
         if(updatedCart.quantity<1){
             await Cart.deleteOne(updatedCart)
             let cartResponse = await getCartItems({userEmail})
+            console.log("Cart Items:", JSON.stringify(cartResponse.data.cartItems, null, 2));
+
             return{
                 status:true,
                 message:"Food deleted from the cart",
-                data:cartResponse
+                data:cartResponse.data
             }
         }
         
@@ -83,6 +88,8 @@ const getCartItems = async({userEmail})=>{
         
         let userObj = await User.findOne({email:userEmail})
         let user_Id =userObj._id
+
+        console.log(user_Id)
 
 
         let cartItems = await Cart.aggregate([
