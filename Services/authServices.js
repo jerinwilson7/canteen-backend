@@ -147,6 +147,7 @@ const userLogin = async (userObj) => {
 };
 
 const tokenVerification = async (req, res, next) => {
+  console.log("heaf"+req.headers)
   console.log(`tokenVerification | ${req.originalUrl}`);
   try {
     if (
@@ -164,6 +165,7 @@ const tokenVerification = async (req, res, next) => {
       return next();
     }
     let token = req.headers["authorization"];
+    console.log("token:"+token)
     if (token && token.startsWith("Bearer")) {
       token = token.slice(7, token.length);
       jwt.verify(token, process.env.ACTIVATION_SECRET, (error, decoded) => {
@@ -204,6 +206,7 @@ const tokenRefresh = async (req, res, next) => {
     let token = req.headers["authorization"];
     if (token && token.startsWith("Bearer")) {
       token = token.slice(7, token.length);
+      console.log(token)
       jwt.verify(
         token,
         process.env.ACTIVATION_SECRET,

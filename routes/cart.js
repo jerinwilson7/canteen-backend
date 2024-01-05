@@ -6,15 +6,23 @@ router.get("/", async (req, res) => {
     let userEmail = req.email
     // let {food_id} = req.params
     let response = await getCartItems({userEmail})
+    console.log(response)
     res.json(response)
 });
 
 
 router.post("/:food_id", async (req, res) => {
-    let userEmail = req.email
-    let {food_id} = req.params
-    let response = await addToCart({food_id,userEmail})
- res.json(response)
+    try {
+        let userEmail = req.email
+        let {food_id} = req.params
+        
+        let response = await addToCart({food_id,userEmail})
+        console.log("ADD: "+response)
+     res.json(response)
+    } catch (error) {
+        console.log(error)
+    }
+   
 });
 
 router.delete('/:food_id',async(req,res)=>{
@@ -22,6 +30,9 @@ router.delete('/:food_id',async(req,res)=>{
     console.log(userEmail)
     let {food_id} = req.params
     let response = await removeFromCart({food_id,userEmail})
+    console.log("DEL :"+response)
+
     res.json(response)
 })
 module.exports = router;
+ 

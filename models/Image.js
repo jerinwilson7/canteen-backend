@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const imageSchema = new mongoose.Schema({
     public_id: {
-      type: String,
+      type: String, 
       required: true,
     },
     url: {
