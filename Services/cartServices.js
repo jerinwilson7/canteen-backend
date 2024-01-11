@@ -64,17 +64,16 @@ const removeFromCart = async({food_id,userEmail})=>{
         }
         
         else{
-          let cartResponse = await getCartItems({userEmail})
-          console.log("Cart Items:", JSON.stringify(cartResponse.data.cartItems, null, 2));
+          let cartResponse = await getCartItems({userEmail}) 
 
             return{
                 status:true,
-                message:"Food removed from the cart",
+                message:"Food removed from the cart", 
                 data:cartResponse.data
             }
         }
     } catch (error) {
-        return{
+        return{ 
             status:false,
             message:"Failed to remove the food from the cart",
             error:error.message
