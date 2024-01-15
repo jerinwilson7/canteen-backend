@@ -31,8 +31,8 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   PaymentMethod: {
-    type: String,
-    required: true,
+    type: String, 
+    required: true, 
   },
   createdAt: {
     type: Date,
