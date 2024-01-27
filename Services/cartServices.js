@@ -85,11 +85,11 @@ const removeFromCart = async({food_id,userEmail})=>{
 const getCartItems = async({userEmail})=>{
    
     try {
-        
+        console.log(userEmail)
         let userObj = await User.findOne({email:userEmail})
         let user_Id =userObj._id
 
-        console.log(user_Id)
+        console.log("cartuser"+user_Id)
 
 
         let cartItems = await Cart.aggregate([
@@ -131,6 +131,9 @@ const getCartItems = async({userEmail})=>{
             return {
               status: false,
               message: "Cart items not found",
+              data:{
+                cartItems
+              }
             };
           }
     
@@ -144,28 +147,10 @@ const getCartItems = async({userEmail})=>{
     }
 
 }
-// const getCartItems = async({userEmail})=>{
-   
-//     try {
-//         let userObj = await User.findOne({email:userEmail})
 
-//         let cartItems = await Cart.findOne({user:userObj._id})
-    
-//         console.log(cartItems)
+const deleteCart = async({userId})=>{
+  const response = await Cart.deleteMany({user:userId})
+  console.log(response)
+}
 
-//         return{
-//             status:true,
-//             messages:"cart fetched successfully",
-//             data:cartItems
-//         }
-//     } catch (error) {
-//         return{
-//             status:false,
-//             messages:"failed to fetch cart",
-//             error:error.message
-//         }
-//     }
-
-// }
-
-module.exports = { addToCart ,removeFromCart,getCartItems};
+module.exports = { addToCart ,removeFromCart,getCartItems,deleteCart};
