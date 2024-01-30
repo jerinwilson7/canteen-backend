@@ -8,23 +8,32 @@ const orderSchema = new mongoose.Schema({
   },
   items: [
     {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Cart",
-    required: true,
-  },
-],
-
-  
+      name: {
+        type: String,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
+      image: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   totalAmount: {
     type: Number,
     required: true,
   },
-
   paymentId: {
     type: String,
     required: true,
   },
-
   createdAt: {
     type: Date,
     default: Date.now(),
