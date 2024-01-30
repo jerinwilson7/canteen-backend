@@ -1,42 +1,78 @@
-const Order = require("../models/Order")
-const User = require("../models/User")
-const { getCartItems, removeFromCart, deleteCart } = require("./cartServices")
+const Cart = require("../models/Cart");
+const Order = require("../models/Order");
+const User = require("../models/User");
+const { getCartItems, removeFromCart, deleteCart } = require("./cartServices");
 
-const placeOrder = async(data,userEmail)=>{
-    try {
+const placeOrder = async (data, userEmail) => {
+  try {
+    return new Promise(async (resolve, reject) => {
+      const { paymentId } = data;
+      const user = await User.findOne({ email: userEmail });
+      let userId = user.id;
+      console.log(userId);
 
-       return new Promise(async(resolve,reject)=>{
-        const {paymentId} = data
-        const user = await User.findOne({email:userEmail})
-        let userId = user.id
-        console.log(userId)
+      const cartResponse = await getCartItems({ userEmail });
+      const cartItems = cartResponse.data.cartItems
+      const totalAmount = cartResponse.data.metaData.itemsTotal
 
-        const cartResponse = await getCartItems({userEmail})
-        console.log("cart "+cartResponse.data.cartItems.product)
+      const orderItems = cartItems.map(cartItem => {
+        return {
+          name: cartItem.food.name,
+          quantity: cartItem.quantity,
+          price: cartItem.food.price,
+          image: cartItem.food.file,
+        };
+      });
 
-        const orderObject ={
-            user:userId,
-            items:cartResponse.data.cartItems,
-            totalAmount:cartResponse.data.metaData.itemsTotal,
-            paymentId:paymentId
-        }
-        await Order.create(orderObject).then((res)=>{
-            deleteCart({userId})
-            const orderPromise ={
+   
+   
 
-                data:res,
-                message:"order success" 
-            }
-            resolve(orderPromise)
-        })
+      const orderObject = {
+        user: userId,
+        items: orderItems,
+        totalAmount: totalAmount,
+        paymentId: paymentId,
+      };
+      await Order.create(orderObject).then((res) => {
+        deleteCart({userEmail})
+        const orderPromise = {
+          status:true,
+          data: res,
+          message: "order success",
+        };
+        resolve(orderPromise);
+      });
+    });
+  } catch (error) {
+    console.log("placeOrder error : " + error);
+    return  {
+      status:false,
+      error: error,
+      message: "order failed",
+    };
+  }
+};
 
-            
-       })
-        
-    } catch (error) { 
-        console.log("placeOrder error : "+error)
-    }
-    
-}
+const getOrders = async ( userEmail ) => {
+  try {
+    console.log(userEmail)
+    return new Promise(async (resolve, reject) => {
+      const user = await User.findOne({ email:userEmail });
+      
+      let userId = user.id;
+      ;
 
-module.exports = {placeOrder}
+      const order = await Order.findOne({ user: userId });
+      console.log("getorder")
+      const food = await Cart.findOne({_id:order.items})
+
+      console.log(food)
+      console.log(order.items.name)
+      resolve(order);
+    });
+  } catch (error) {
+    console.log(error); 
+  }
+};
+
+module.exports = { placeOrder ,getOrders};
