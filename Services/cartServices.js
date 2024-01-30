@@ -109,7 +109,6 @@ const getCartItems = async({userEmail})=>{
             }
         ])
 
-        console.log(cartItems.length)
         if (cartItems?.length > 0) {
             let itemsTotal = cartItems
               ?.map((cartItem) => cartItem?.food?.price * cartItem?.quantity)
@@ -148,9 +147,22 @@ const getCartItems = async({userEmail})=>{
 
 }
 
-const deleteCart = async({userId})=>{
-  const response = await Cart.deleteMany({user:userId})
-  console.log(response)
+const deleteCart = async({userEmail})=>{
+  try {
+    return new Promise(async(resolve,reject)=>{
+      let user = await User.findOne({email:userEmail})
+  let userId = user._id
+await Cart.deleteMany({user:userId})
+
+  let deletePromise ={
+    status:true, 
+    message:"cart deleted",
+  }
+  resolve(deletePromise)
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 module.exports = { addToCart ,removeFromCart,getCartItems,deleteCart};
