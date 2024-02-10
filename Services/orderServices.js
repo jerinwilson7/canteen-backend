@@ -53,7 +53,7 @@ const placeOrder = async (data, userEmail) => {
   }
 };
 
-const getOrders = async ( userEmail ) => {
+const getUserOrders = async ( userEmail ) => {
   try {
     console.log(userEmail)
     return new Promise(async (resolve, reject) => {
@@ -75,4 +75,17 @@ const getOrders = async ( userEmail ) => {
   }
 };
 
-module.exports = { placeOrder ,getOrders};
+const getAllOrders = async()=>{
+  try {
+
+    return new Promise(async(resolve,reject)=>{
+      const allOrders = await Order.find()
+      resolve(allOrders)
+        })
+    
+  } catch (error) {
+    console.log("all order error :"+ error)
+  }
+}
+
+module.exports = { placeOrder ,getUserOrders,getAllOrders};
