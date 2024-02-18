@@ -1,5 +1,5 @@
 var express = require("express");
-const { placeOrder, getOrders } = require("../Services/orderServices");
+const { placeOrder, getUserOrders } = require("../Services/orderServices");
 var router = express.Router();
 
 router.post("/place-order",async(req,res)=>{
@@ -23,7 +23,7 @@ router.post("/place-order",async(req,res)=>{
 router.get("/",async(req,res)=>{
     try {
         const userEmail = req.email
-        const response = await getOrders(userEmail)
+        const response = await getUserOrders(userEmail)
         res.json(response)
     } catch (error) {
         console.log(error)

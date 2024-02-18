@@ -9,6 +9,7 @@ const placeOrder = async (data, userEmail) => {
       const { paymentId } = data;
       const user = await User.findOne({ email: userEmail });
       let userId = user.id;
+      let userName = user.name
       console.log(userId);
 
       const cartResponse = await getCartItems({ userEmail });
@@ -29,6 +30,8 @@ const placeOrder = async (data, userEmail) => {
 
       const orderObject = {
         user: userId,
+        email:userEmail,
+        userName:userName,
         items: orderItems,
         totalAmount: totalAmount,
         paymentId: paymentId,
@@ -89,3 +92,4 @@ const getAllOrders = async()=>{
 }
 
 module.exports = { placeOrder ,getUserOrders,getAllOrders};
+ 
