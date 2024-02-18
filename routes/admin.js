@@ -2,6 +2,7 @@ var express = require("express");
 const { adminLogin, adminRegister } = require("../Services/adminAuthServices");
 const { upload } = require("../multer");
 const {addFood, getAllProducts } = require("../Services/productServices");
+const { getAllOrders } = require("../Services/orderServices");
 var router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -100,6 +101,11 @@ router.get('/log',async(req,res)=>{
  console.log("first")
 }) 
 
+
+router.get('/orders',async(req,res)=>{
+  const response = await getAllOrders()
+  res.json(response)
+})
 
 
 

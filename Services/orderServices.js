@@ -9,6 +9,7 @@ const placeOrder = async (data, userEmail) => {
       const { paymentId } = data;
       const user = await User.findOne({ email: userEmail });
       let userId = user.id;
+      let userName = user.name
       console.log(userId);
 
       const cartResponse = await getCartItems({ userEmail });
@@ -29,6 +30,8 @@ const placeOrder = async (data, userEmail) => {
 
       const orderObject = {
         user: userId,
+        email:userEmail,
+        userName:userName,
         items: orderItems,
         totalAmount: totalAmount,
         paymentId: paymentId,
@@ -53,7 +56,7 @@ const placeOrder = async (data, userEmail) => {
   }
 };
 
-const getOrders = async ( userEmail ) => {
+const getUserOrders = async ( userEmail ) => {
   try {
     console.log(userEmail)
     return new Promise(async (resolve, reject) => {
@@ -75,4 +78,18 @@ const getOrders = async ( userEmail ) => {
   }
 };
 
-module.exports = { placeOrder ,getOrders};
+const getAllOrders = async()=>{
+  try {
+
+    return new Promise(async(resolve,reject)=>{
+      const allOrders = await Order.find()
+      resolve(allOrders)
+        })
+    
+  } catch (error) {
+    console.log("all order error :"+ error)
+  }
+}
+
+module.exports = { placeOrder ,getUserOrders,getAllOrders};
+ 

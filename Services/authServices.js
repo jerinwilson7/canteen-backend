@@ -158,7 +158,7 @@ const tokenVerification = async (req, res, next) => {
       req.originalUrl.endsWith("/admin/get-products") ||
       req.originalUrl.includes("/activation") ||
       req.originalUrl.includes("/FoodImages") ||
-      req.originalUrl.includes("/admin") ||
+      req.originalUrl.includes("/admin") || 
       req.originalUrl.includes("/payment") ||
       req.originalUrl.includes("/good") ||
       req?.originalUrl.includes("/refresh-token")
