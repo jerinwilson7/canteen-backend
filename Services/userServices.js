@@ -25,4 +25,15 @@ const getUser = async (email) => {
   }
 };
 
-module.exports = { getUser };
+const getAllUsers = async () => {
+  try {
+    return new Promise(async (resolve, reject) => {
+      const allUsers = await User.find();
+      resolve(allUsers);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getUser, getAllUsers };
