@@ -51,6 +51,12 @@ app.use("/api/admin", adminRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
+app.use("/api/products", (req, res) => {
+  return res.status(200).json({
+    message: "This is new feature change, a new route for products",
+  });
+});
+
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
     path: "config/.env",
