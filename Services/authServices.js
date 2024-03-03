@@ -75,10 +75,10 @@ const userActivation = async (token, res) => {
       // return res.status(200).json({ message: "Account is already activated." });
       return {
         status: true,
-        title:"Email Validation Failed",
+        title: "Email Validation Failed",
         message: "Account is already activated",
-        name:name,
-        action:"Please login to continue"
+        name: name,
+        action: "Please login to continue",
       };
     }
 
@@ -91,12 +91,10 @@ const userActivation = async (token, res) => {
 
     return {
       status: true,
-      title:"Email Validation Success",
+      title: "Email Validation Success",
       message: "Account activated Successfully",
-      name:name,
-      action:"Please login to continue"
-
-       
+      name: name,
+      action: "Please login to continue",
     };
   } catch (error) {
     // Handle token verification errors or other exceptions
@@ -104,11 +102,11 @@ const userActivation = async (token, res) => {
     // return res.status(400).json({ message: "Invalid activation token." });
     return {
       status: false,
-      title:"Email Validation Failed",
+      title: "Email Validation Failed",
       message: "Invalid activation token",
-      action:"Please try again"
+      action: "Please try again",
     };
-  } 
+  }
 };
 
 const userLogin = async (userObj) => {
@@ -158,9 +156,9 @@ const tokenVerification = async (req, res, next) => {
       req.originalUrl.endsWith("/admin/get-products") ||
       req.originalUrl.includes("/activation") ||
       req.originalUrl.includes("/FoodImages") ||
-      req.originalUrl.includes("/admin") || 
+      req.originalUrl.includes("/admin") ||
       req.originalUrl.includes("/payment") ||
-      req.originalUrl.includes("/good") ||
+      req.originalUrl.includes("/api/products") ||
       req?.originalUrl.includes("/refresh-token")
     ) {
       return next();
@@ -190,7 +188,6 @@ const tokenVerification = async (req, res, next) => {
       });
     }
   } catch (error) {
-
     res.status(401).json({
       status: false,
       message: error?.message ? error?.message : "Authentication failed",
@@ -203,10 +200,10 @@ const tokenRefresh = async (req, res, next) => {
   try {
     console.log(`token refresh | ${req.originalUrl}`);
     let token = req.headers["authorization"];
-    console.log("tokenre"+ token)
+    console.log("tokenre" + token);
     if (token && token.startsWith("Bearer")) {
       token = token.slice(7, token.length);
-      console.log(token)
+      console.log(token);
       jwt.verify(
         token,
         process.env.ACTIVATION_SECRET,
