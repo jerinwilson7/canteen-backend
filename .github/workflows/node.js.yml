@@ -29,7 +29,7 @@ jobs:
     
     - name: Create .env file with secret
       run: |
-       touch .env
+       touch config/.env
        echo "${{ secrets.PROD_ENV_FILE }}" > .env
 
     - run: pm2 restart BackendAPI
