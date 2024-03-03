@@ -7,7 +7,7 @@ const connectDatabase = () => {
       useUnifiedTopology: true,
     })
     .then(() => console.log("Connected to MongoDB Atlas"))
-    .catch((err) => console.error(err));
+    .catch((err) => console.error("mongoose connection error: " + err));
 };
 
 module.exports = connectDatabase;
