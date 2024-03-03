@@ -9,4 +9,5 @@ dist/
 
 # Ignore environment files
 .env
+
 uploads/
